@@ -19,7 +19,18 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
+	public function taskNotClosed(){
+		$this->db->select('*');
+		$this->db->where('status !=','Closed' );
+	
+		$query = $this->db->get('viewtasks');
+		if($query->num_rows()>0){
+			return $query->result();
+		}else{
 
+			return false;
+		}
+	}
  public function assign($data){
 
 		$this->db->insert('tblhistory',$data);
@@ -42,7 +53,8 @@ class Task_model extends CI_Model{
 
 		$this->db->select('*');
 		$this->db->where('task_id',$param1 );
-		$query = $this->db->get('tbltaks');
+		// $this->db->where('status','Open' );
+		$query = $this->db->get('viewtasks');
 		if($query->num_rows()>0){
 			return $query->result();
 		}else{
@@ -50,11 +62,29 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
-	public function updateBranch($data)
-	{
+	public function get_single_history($param1){
+    	$this->db->select('*');
+		$this->db->where('task_id',$param1 );
+		$this->db->where('status','Open' );
+		$query = $this->db->get('viewtasks');
+		if($query->num_rows()>0){
+			return $query->result();
+		}else{
 
+			return false;
+		}
+		
+	}
+	
+	public function update($data)
+	{
 		$this->db->where('task_id',$data['task_id'] );
 		$this->db->update('tbltaks',$data);
+	}
+	public function updateAssign($data)
+	{
+		$this->db->where('htask_id',$data['ru_task_id'] );
+		$this->db->update('tblhistory',$data);
 	}
 
 

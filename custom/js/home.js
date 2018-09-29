@@ -2,7 +2,7 @@
 var managerMemberTable;
 
 $(document).ready(function(){
-	managerMemberTable=$("#sender_info").DataTable({
+	managerMemberTable=$(".paginate_table").DataTable({
 		"processing":true
 
 
