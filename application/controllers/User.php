@@ -20,4 +20,12 @@ class User extends CI_Controller {
 	   echo json_encode($this->User_model->get());  
     }
 
+    public function validate(){
+
+    }
+
+    public function process(){
+        
+    }
+
 }

@@ -3,7 +3,7 @@
 <button data-toggle="modal" data-target="#viewMyTasksForUpdate" data-id="" id="getTaskToUpdate" class="btn btn-sm btn-primary"><i class=""></i>
 Update Task</button>
 
-<button data-toggle="modal" data-target="#view-modal" data-id="" id="createUser" class="btn btn-sm btn-success"><i class=""></i>My Task
+<button data-toggle="modal" data-target="#view-modal" data-id="" id="createUser" class="btn btn-sm btn-success"><i class=""></i>To Do List
 <span class="badge badge-light">10</span>
 </button>
 <button data-toggle="modal" data-target="#view-modal" data-id="" id="createUser" class="btn btn-sm btn-danger"><i class=""></i>Assigned Task
@@ -228,8 +228,8 @@ Update Task</button>
 		<table id="sender_info" class="table table-bordered table-striped paginate_table">
 			<thead>
 				<tr>
-					<th width="">Title</th>
-					<th width="">Owner</th>
+					<th width="">Title </th>
+					<th width="">Assigned To</th>
                     <th width="">Status</th>
                     <th width="">Deadline</th>
                     <th width="">Action</th>
@@ -250,14 +250,14 @@ Update Task</button>
 
 				<td><?php echo $profile->title?></td>
 				<td><?php echo $profile->full_name?></td>
-                <td><?php echo $profile->status?></td>
+                <td><?php echo $profile->task_status?></td>
 		        <td><?php echo $profile->deadline?></td>
                 
 
 			<td>
 				
 				<button data-toggle="modal" data-target="#update-modal" data-id="<?php echo $profile->task_id?>" id="getTask" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-update"></i>Update Task</button>
-                <?php if($profile->status =="Open"){
+                <?php if($profile->task_status =="Open"){
                     ?>
                 <button data-toggle="modal" data-target="#update-modalreassign" data-id="<?php echo $profile->task_id?>" id="getTaskHistory" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-update"></i>Re-Assign</button>
                             
@@ -329,7 +329,7 @@ Update Task</button>
                           <div class="form-group">
                                <label for="username">Assign To</label>
                                <select name="owner" id="owner" class="form-control">
-                                   <option value="0">Me</option>
+                                   <option value="<?php echo $this->session->userdata('user_id')?>"><?php echo $this->session->userdata('full_name')?></option>
                                </select>
                           
                          </div>
@@ -535,7 +535,7 @@ $(document).ready(function(){
 			console.log(data);
 
 			for (var i=0; i<data.length; i++) {
-            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].htask_id+'&owner='+data[i].owner+'">Edit</a></td></tr>');
+            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
 
 					  $('#mytask').append(row);
         }

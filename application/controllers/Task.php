@@ -8,19 +8,25 @@ class Task extends CI_Controller {
     $this->load->helper('url');
     $this->load->view('header');
     $this->load->model('Task_model');
-    $data['profiles']=$this->Task_model->get();
+    $data['profiles']=$this->Task_model->taskAssigned();
+	//  $data['profiles']=$this->$this->Task_model->taskAssignedToMeCount();
+	//  $data['profiles']=$this->Task_model->taskAssignedCount();
     $this->load->view('task/index',$data);
     $this->load->view('footer'); 
 	}
 	//Create TAsk Function
-	public function create(){		
+	public function create(){	
+		//
 	    	$this->load->helper('url');
 			$this->load->model('Task_model');
 			$taskfield= array(
 			'title'  => $this->input->post('title'),
 		    'description'  => $this->input->post('desc'),
 		    'deadline'  => $this->input->post('deadline'),
-			'tdept_id'  => $this->input->post('dept'),						
+			'tdept_id'  => $this->input->post('dept'),
+			'tcreated_by'=>$this->session->userdata('user_id'),	
+			'approved'=>'false',	
+			'assignedto'=>	$this->input->post('owner'),			
 			'tcreated_at'  => date('Y-m-d H:i:s')
 	     );
 		 	// Excute create task
@@ -32,6 +38,7 @@ class Task extends CI_Controller {
 			'htask_id'  => $task_id,
 		    'owner'  => $this->input->post('owner'),
 		    'status'  => "Open",
+			'hcreated_by'=>$this->session->userdata('user_id'),	
 			'hcreated_at'  => date('Y-m-d H:i:s')
 	      );
 		  // Excute Assign Task
@@ -84,16 +91,12 @@ class Task extends CI_Controller {
 			$this->load->helper('url');
 			$this->load->view('header');
 			$this->load->model('Task_model');
-			$data['profiles']=$this->Task_model->get_single(trim($this->input->get('id')));
+			$data['profiles']=$this->Task_model->get_user_history(trim($this->input->get('id')));
 			$this->load->view('task/updatetask',$data);
 			$this->load->view('footer'); 
 		}
 		public function followUpUpdate(){
-			// echo $this->input->post('taskid');
-			// echo $this->input->post('remark');
-			// echo $this->input->post('status');
-			// echo $this->input->post('owner');
-
+			
 			$assignTask= array(
 			'htask_id'  => $this->input->post('taskid'),
 		    'owner'  => $this->input->post('owner'),
@@ -102,9 +105,42 @@ class Task extends CI_Controller {
 			'hupdated_at'  => date('Y-m-d H:i:s')
 	      );
 		  // Excute Assign Task
-		  $this->load->model('Task_model');
-          $this->Task_model->assign($assignTask);
+		   $this->load->model('Task_model');
+            $this->Task_model->assign($assignTask);
+			//if Status is closed update task ststus here as closed
+			// if($this->input->post('status') == 'Closed'){
+
+			
+            $updateTask= array(
+			'task_id'  => $this->input->post('taskid'),
+			'task_status'  => $this->input->post('status'),
+			'tupdated_at'  => date('Y-m-d H:i:s')
+	      );
+		   $this->Task_model->update($updateTask);
+		//   }
+		  
 		  	redirect('task');
 			
+		}
+
+		//task Assigned to me 
+		 public function taskAssignedToMe(){
+				$this->load->model('Task_model');
+			    echo json_encode($this->Task_model->taskAssignedToMe());
+		}
+		//task Assigned to me Count
+		 public function taskAssignedToMeCount(){
+				$this->load->model('Task_model');
+			    echo json_encode($this->Task_model->taskAssignedToMeCount());
+		}
+		// Task Assigned
+		 public function taskAssigned(){
+				$this->load->model('Task_model');
+			    echo json_encode($this->Task_model->taskAssigned());
+		}
+		// Task Assigned Count
+		 public function taskAssignedCount(){
+				$this->load->model('Task_model');
+			    echo json_encode($this->Task_model->taskAssignedCount());
 		}
 }

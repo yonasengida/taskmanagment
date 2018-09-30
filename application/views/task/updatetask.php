@@ -3,10 +3,12 @@
 		<table  class="table table-bordered table-striped ">
 			<thead>
 				<tr>
-					<th width="">Task ID</th>
+					<th width="">#</th>
 					<th width="">Title</th>
 					<th width="">Owner</th>
                     <th width="">Status</th>
+                    <th width="">Remark</th>
+                    <th width="">Updated At</th>
                     <th width="">Deadline</th>
                     </tr>
 			</thead>
@@ -16,16 +18,18 @@
 			if(!$profiles){
 				//echo "Data Is Empty";
 			}else{
-
+				$i=1;
 			 foreach($profiles as $profile){
 
 				?>
 			<tr>
 
-				<td><?php echo $profile->htask_id+":"+$this->input->get('id')?></td>
+				<td><?php echo ++$i?></td>
 				<td><?php echo $profile->title?></td>
 				<td><?php echo $profile->full_name?></td>
                 <td><?php echo $profile->status?></td>
+		        <td><?php echo $profile->remark?></td>
+		        <td><?php echo $profile->hupdated_at?></td>
 		        <td><?php echo $profile->deadline?></td>
                 
 
