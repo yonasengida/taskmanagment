@@ -39,6 +39,27 @@ class Task_model extends CI_Model{
 			return $query->num_rows();
 		
 	}
+	// Task Assigned To me Summary
+	public function taskAssignedSummary(){
+		$this->db->select('email,full_name,task_status,count(task_status) as total');
+		$this->db->from('viewtasks');
+		// $this->db->where('created_at >=',$start_date);
+		 $this->db->where('tcreated_by ',$this->session->userdata('user_id'));
+		//  $this->db->where('assignedto ',$this->session->userdata('user_id'));
+		$this->db->group_by('task_status');
+		$this->db->group_by('email');
+		$this->db->group_by('full_name');
+		$query = $this->db->get();
+		
+		if($query->num_rows()>0){
+			return $query->result();
+		}else{
+
+			return false;
+		}
+	}
+
+	
 	public function taskAssignedToMe(){
 		$this->db->select('*');
 		 $this->db->where('assignedto ',$this->session->userdata('user_id'));
@@ -50,6 +71,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
+	//MY TASKS FUNCTION
 	public function taskAssignedToMeCount(){
 		$this->db->select('*');
 		 $this->db->where('assignedto ',$this->session->userdata('user_id'));
@@ -57,6 +79,22 @@ class Task_model extends CI_Model{
 	
 			return $query->num_rows();
 		
+	}
+	// Task Assigned To me Summary
+	public function taskAssignedToMeSummary(){
+		$this->db->select('task_status,count(task_status) as total');
+		$this->db->from('viewtasks');
+		// $this->db->where('created_at >=',$start_date);
+		 $this->db->where('assignedto ',$this->session->userdata('user_id'));
+		$this->db->group_by('task_status');
+		$query = $this->db->get();
+		
+		if($query->num_rows()>0){
+			return $query->result();
+		}else{
+
+			return false;
+		}
 	}
 	public function taskNotClosed(){
 		$this->db->select('*');
@@ -70,6 +108,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
+	
  public function assign($data){
 
 		$this->db->insert('tblhistory',$data);

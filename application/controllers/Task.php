@@ -2,6 +2,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Task extends CI_Controller {
+
+
+	function __construct(){
+			parent::__construct();
+			$this->check_isvalidated();
+	}
+	 private function check_isvalidated(){
+	 			if(! $this->session->userdata('validated')){
+	 					redirect('auth');
+	 			}
+	 	}
    //View Task Function
 	public function index()
 	{
@@ -25,6 +36,7 @@ class Task extends CI_Controller {
 		    'deadline'  => $this->input->post('deadline'),
 			'tdept_id'  => $this->input->post('dept'),
 			'tcreated_by'=>$this->session->userdata('user_id'),	
+			'creator'=>$this->session->userdata('full_name'),	
 			'approved'=>'false',	
 			'assignedto'=>	$this->input->post('owner'),			
 			'tcreated_at'  => date('Y-m-d H:i:s')
@@ -133,6 +145,18 @@ class Task extends CI_Controller {
 				$this->load->model('Task_model');
 			    echo json_encode($this->Task_model->taskAssignedToMeCount());
 		}
+		
+			//task Assigned to me Summary
+		 public function taskAssignedToMeSummary(){
+				$this->load->model('Task_model');
+			    echo json_encode($this->Task_model->taskAssignedToMeSummary());
+		}
+			//task Assigned  Summary
+		 public function taskAssignedSummary(){
+				$this->load->model('Task_model');
+			    echo json_encode($this->Task_model->taskAssignedSummary());
+		}
+		
 		// Task Assigned
 		 public function taskAssigned(){
 				$this->load->model('Task_model');

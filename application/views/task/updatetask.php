@@ -64,9 +64,8 @@
         <textarea class="form-control" name="remark" id="remark" rows="6" required></textarea>                           
     </div>
      <div class="footer">
-         <button id="updtTask" type="submit" class="btn btn-danger" >Save</button>
-       
-    </div>
+         <button id="updtTask" type="submit" class="btn btn-success" >Save</button>
+		 <a href="<?php  echo base_url() ?>task" class="btn btn-danger" >Cancel</a>
 </div>
 </form>
 

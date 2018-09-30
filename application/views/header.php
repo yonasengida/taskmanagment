@@ -22,7 +22,7 @@
 </head>
 <body>
   <div class="container">
-
+  <div class="container box ">
       <!-- Static navbar -->
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -44,11 +44,25 @@
               <!--<li class="active"><a href="#">Task</a></li>-->
              
             </ul>
-           
+             <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li> <a><?php echo $this->session->userdata('full_name')?></a></li>
+                 <li role="separator" class="divider"></li>
+                <li><a href="<?php echo base_url().'auth/logout';?>">Logout</a></li>
+                <li role="separator" class="divider"></li>
+                <!--<li><a href="<?php echo base_url().'user/passwordChange';?>">Change Password</a></li>-->
+
+              </ul>
+
+
+            </li>
+          </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
-
+    </div>
       
 
     

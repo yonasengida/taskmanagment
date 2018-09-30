@@ -3,11 +3,11 @@
 <button data-toggle="modal" data-target="#viewMyTasksForUpdate" data-id="" id="getTaskToUpdate" class="btn btn-sm btn-primary"><i class=""></i>
 Update Task</button>
 
-<button data-toggle="modal" data-target="#view-modal" data-id="" id="createUser" class="btn btn-sm btn-success"><i class=""></i>To Do List
-<span class="badge badge-light">10</span>
+<button data-toggle="modal" data-target="#viewMyTasksDetail" data-id="" id="getMyTask" class="btn btn-sm btn-success"><i class=""></i>To Do List
+<span class="badge badge-light" id="spntodo"></span>
 </button>
-<button data-toggle="modal" data-target="#view-modal" data-id="" id="createUser" class="btn btn-sm btn-danger"><i class=""></i>Assigned Task
-<span class="badge badge-light">10</span>
+<button data-toggle="modal" data-target="#viewassignedMyTasksDetail" data-id="" id="getMyAssignedTask" class="btn btn-sm btn-danger"><i class=""></i>Assigned Task
+<span class="badge badge-light" id="spnassigned"></span>
 </button>
 </div>
 </br>
@@ -27,6 +27,7 @@ Update Task</button>
 						 			<thead>
 						 				<tr>
 						 					<th width="">#</th>
+						 					<th width="">Assigned By</th>
 						 					<th width="">Title</th>
 						 					<th width="">Description</th>
 						 					<th width="">Deadline</th>
@@ -34,7 +35,7 @@ Update Task</button>
 						 					</tr>
 						 			</thead>
 
-                             </table>
+     </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -44,7 +45,100 @@ Update Task</button>
   </div>
 </div>
 <!--end of modal-->
-<!--Modal-->
+<!--View My Assigned Tasks Detail-->
+<!-- Modal -->
+<div class="modal fade" id="viewassignedMyTasksDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLongTitle">Assigned Tasks</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <h3>Summary</h3>
+       <table id="myassignedtasksummary"  class="table table-bordered table-striped paginate_table1">
+						 			<thead>
+						 				<tr>
+						 					<th width="">#</th>
+						 					<th width="">Status</th>
+						 					<th width="">Assigned To</th>
+						 					<th width="">Count</th>
+						 					<th width="">Action</th>
+						 					</tr>
+						 			</thead>
+
+      </table>
+      <h3>Task List</h3>
+       <table id="myassignedtasklist"  class="table table-bordered table-striped paginate_table1">
+						 			<thead>
+						 				<tr>
+						 					<th width="">#</th>
+						 					<th width="">Title</th>
+						 					<th width="">Description</th>
+						 					<th width="">Deadline</th>
+						 					<th width="">Status</th>
+						 					</tr>
+						 			</thead>
+
+      </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--end of modal-->
+<!--View My Tasks Detail-->
+<!-- Modal -->
+<div class="modal fade" id="viewMyTasksDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLongTitle">To Do List</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <h3>Summary</h3>
+       <table id="mytasksummary"  class="table table-bordered table-striped paginate_table1">
+						 			<thead>
+						 				<tr>
+						 					<th width="">#</th>
+						 					<th width="">Status</th>
+						 					<th width="">Count</th>
+						 					<th width="">Action</th>
+						 					</tr>
+						 			</thead>
+
+      </table>
+      <h3>Task List</h3>
+       <table id="mytasklist"  class="table table-bordered table-striped paginate_table1">
+						 			<thead>
+						 				<tr>
+						 					<th width="">#</th>
+						 					<th width="">Title</th>
+						 					<th width="">Description</th>
+						 					<th width="">Deadline</th>
+						 					<th width="">Status</th>
+						 					</tr>
+						 			</thead>
+
+      </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--end of modal-->
+<!--Modal Update Task-->
 <form id= "update_user" action="<?php echo base_url()?>task/update" method="POST">
 <!-- <form action="nsjdjad" method="POST"> -->
 <div id="update-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -535,7 +629,7 @@ $(document).ready(function(){
 			console.log(data);
 
 			for (var i=0; i<data.length; i++) {
-            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
+            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].creator+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
 
 					  $('#mytask').append(row);
         }
@@ -545,5 +639,157 @@ $(document).ready(function(){
 			 $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
      });
     });
+});
+
+//Display My Task Detail /Tod do LISt
+$(document).ready(function(){
+
+	$(document).on('click', '#getMyTask', function(e){
+   
+		 $('#mytasklist td').parent().remove();
+		 $('#mytasksummary td').parent().remove();
+         
+        //  alert("my task Click")
+			e.preventDefault();
+		  var uid = $(this).data('id'); // get id of clicked row
+		
+     $.ajax({
+		    	url:'<?php  echo base_url()?>task/taskAssignedToMe',
+      	 type: 'POST',
+         data: {'uid':uid},
+         dataType: 'json'
+     })
+     .done(function(data){
+			console.log(data);
+
+			for (var i=0; i<data.length; i++) {
+            // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
+            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td></tr>');
+
+					  $('#mytasklist').append(row);
+        }
+
+     })
+     .fail(function(){
+			 $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Task ListSomething went wrong, Please try again...');
+     });
+     $.ajax({
+		    	url:'<?php  echo base_url()?>task/taskAssignedToMeSummary',
+      	 type: 'POST',
+         data: {'uid':uid},
+         dataType: 'json'
+     })
+     .done(function(data){
+			console.log(data);
+
+			for (var i=0; i<data.length; i++) {
+            // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
+            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].task_status+'</td><td>'+data[i].total+'</td><td>View</td></tr>');
+
+					  $('#mytasksummary').append(row);
+        }
+
+     })
+     .fail(function(){
+			 $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i>TAsk Summary, Something went wrong, Please try again...');
+     });
+     
+    });
+});
+
+
+//Display My Assign Task Detail 
+$(document).ready(function(){
+
+	$(document).on('click', '#getMyAssignedTask', function(e){
+   
+		 $('#myassignedtasklist td').parent().remove();
+		 $('#myassignedtasksummary td').parent().remove();
+         
+        //  alert("Assigntask Click")
+			e.preventDefault();
+		  var uid = $(this).data('id'); // get id of clicked row
+		
+     $.ajax({
+		    	url:'<?php  echo base_url()?>task/taskAssigned',
+      	 type: 'POST',
+         data: {'uid':uid},
+         dataType: 'json'
+     })
+     .done(function(data){
+			console.log(data);
+
+			for (var i=0; i<data.length; i++) {
+            // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
+            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td></tr>');
+
+					  $('#myassignedtasklist').append(row);
+        }
+
+     })
+     .fail(function(){
+			 $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Task ListSomething went wrong, Please try again...');
+     });
+     $.ajax({
+		    	url:'<?php  echo base_url()?>task/taskAssignedSummary',
+      	 type: 'POST',
+         data: {'uid':uid},
+         dataType: 'json'
+     })
+     .done(function(data){
+			console.log(data);
+
+			for (var i=0; i<data.length; i++) {
+            // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
+            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].task_status+'</td><td>'+data[i].full_name+"["+data[i].email+"]"+'</td><td>'+data[i].total+'</td><td>View</td></tr>');
+
+					  $('#myassignedtasksummary').append(row);
+        }
+
+     })
+     .fail(function(){
+			 $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i>TAsk Summary, Something went wrong, Please try again...');
+     });
+     
+    });
+});
+
+// Show task Counts
+$(function(){
+ 
+ 	// function
+ 	showTaskCounts();
+ 	function showTaskCounts(){
+ 		$.ajax({
+ 			type:'POST',
+ 			url:'<?php  echo base_url()?>task/taskAssignedToMeCount',
+ 			asyc:false,
+ 			dataType:'json',
+ 			success:function(data){
+               
+ 				// console.log('taskAssignedToMeCount:'+data);
+       $('#spntodo').append(data);
+          },
+ 			error:function(){
+ 			alert("Counts of TAsk,Could not get Data from Database");
+ 			}
+ 		});
+
+         $.ajax({
+ 			type:'POST',
+ 			url:'<?php  echo base_url()?>task/taskAssignedCount',
+ 			asyc:false,
+ 			dataType:'json',
+ 			success:function(data){
+               
+ 				// console.log('taskAssignedCount:'+data);
+                  $('#spnassigned').append(data);
+       
+          },
+ 			error:function(){
+ 			alert("Counts of TAsk,Could not get Data from Database");
+ 			}
+ 		});
+ 	}
 });
 </script>
