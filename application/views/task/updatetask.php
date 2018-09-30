@@ -56,6 +56,15 @@
                           
     </div>
 </div>
+<div class="col-md-6">
+    <div class="form-group">
+         <label for="progress">Progress</label>
+        <input type="text" name="progress" id="progress" class="form-control"/>
+        <!--<progress value="70" max="100"></progress>-->
+        <!--<progress value="10" max="10">sss</progress>-->
+                            
+    </div>
+</div>
 <div class="col-md-12">
     <div class="form-group">
         <label for="desc">Remark</label>
