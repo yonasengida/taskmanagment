@@ -191,8 +191,9 @@ class Task_model extends CI_Model{
 //Get Tasks By Status and OWner
 public function tasksByStatusAndOwner($param1,$param2){
 	$this->db->select('*');
-	$this->db->where('task_status !=',$param1 );
+	$this->db->where('task_status',$param1 );
 	$this->db->where('assignedto ',$param2);
+	$this->db->where('tcreated_by ',$this->session->userdata('user_id'));
 	$query = $this->db->get('viewtasks');
 	if($query->num_rows()>0){
 		return $query->result();

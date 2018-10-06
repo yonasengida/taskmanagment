@@ -70,7 +70,7 @@ Update Task</button>
 						 			</thead>
 
       </table>
-      <h3>Task List</h3>
+      <h3>Details</h3>
        <table id="myassignedtasklist"  class="table table-bordered table-striped paginate_table1">
 						 			<thead>
 						 				<tr>
@@ -79,6 +79,7 @@ Update Task</button>
 						 					<th width="">Description</th>
 						 					<th width="">Deadline</th>
 						 					<th width="">Status</th>
+						 					<th width="">History</th>
 						 					</tr>
 						 			</thead>
 
@@ -92,6 +93,29 @@ Update Task</button>
   </div>
 </div>
 <!--end of modal-->
+
+<!-- Display Display Task History -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end of Dispaly Task History -->
 <!--View My Tasks Detail-->
 <!-- Modal -->
 <div class="modal fade" id="viewMyTasksDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -725,7 +749,8 @@ $(document).ready(function(){
 			console.log(data);
 
 			for (var i=0; i<data.length; i++) {
-            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].task_status+'</td><td><input value="'+data[i].full_name+'" id="task_owner" name="task_owner" />'+data[i].full_name+"["+data[i].email+"]"+'</td><td>'+data[i].total+'</td><td> <button data-toggle="modal" data-target="" data-id="<?php echo $profile->task_id?>" id="getMyAssignedTaskDetails" class="btn btn-link"><i class="glyphicon glyphicon-update"></i>Details</button></td></tr>');
+            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].task_status+'</td><td>'+data[i].full_name+"["+data[i].email+"]"+'</td><td>'+data[i].total+'</td><td> <button data-toggle="modal" data-target="" data-id2="'+data[i].assignedto+'" data-id="'+data[i].task_status+'" id="getMyAssignedTaskDetails" class="btn btn-link"><i class="glyphicon glyphicon-update"></i>Details</button></td></tr>');
+            // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].task_status+'</td><td><input value="'+data[i].full_name+'" id="task_owner" name="task_owner" />'+data[i].full_name+"["+data[i].email+"]"+'</td><td>'+data[i].total+'</td><td> <button data-toggle="modal" data-target="" data-todo="{"id":12,"todo":"xyz"}"  id="getMyAssignedTaskDetails" class="btn btn-link"><i class="glyphicon glyphicon-update"></i>Details</button></td></tr>');
 
 					  $('#myassignedtasksummary').append(row);
         }
@@ -745,21 +770,21 @@ $(document).on('click', '#getMyAssignedTaskDetails', function(e){
      $('#myassignedtasklist td').parent().remove();
     
         e.preventDefault();
-      var uid = $(this).data('id'); // get id of clicked row
-     var owner =document.getElementById("task_owner").value;
-     var owner= $(this).closest('#task_owner');
-     alert(owner);
+      var uid = $(this).data('id'); // status
+      var uid2 = $(this).data('id2'); //owner
+   
+    //  alert(uid+"{}"+uid2);
  $.ajax({
-        url:'<?php  echo base_url()?>task/taskAssigned',
+        url:'<?php  echo base_url()?>task/tasksByStatusAndOwner',
        type: 'POST',
-     data: {'uid':uid},
+     data: {'status':uid,'owner':uid2},
      dataType: 'json'
  })
  .done(function(data){
         console.log(data);
 
         for (var i=0; i<data.length; i++) {
-        var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td></tr>');
+        var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td><td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">View</button></td></tr>');
 
                   $('#myassignedtasklist').append(row);
     }
