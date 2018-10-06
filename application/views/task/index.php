@@ -97,21 +97,35 @@ Update Task</button>
 <!-- Display Display Task History -->
 <!-- Modal -->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Task History</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+      <h3>Details</h3>
+       <table id="myassignedtasklistHistory"  class="table table-bordered table-striped paginate_table1">
+						 			<thead>
+						 				<tr>
+                                        <th width="">#</th>
+                                        <th width="">Title</th>
+                                        <th width="">Assigned By</th>
+                                        <th width="">Owner</th>
+                                        <th width="">Status</th>
+                                        <th width="">Remark</th>
+                                        <th width="">Progress</th>
+                                        <th width="">Updated At</th>
+                                        <th width="">Deadline</th>
+						 					</tr>
+						 			</thead>
+
+      </table>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
+     
     </div>
   </div>
 </div>
@@ -784,7 +798,7 @@ $(document).on('click', '#getMyAssignedTaskDetails', function(e){
         console.log(data);
 
         for (var i=0; i<data.length; i++) {
-        var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td><td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">View</button></td></tr>');
+        var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td><td><button type="button" class="btn btn-primary" data-id="'+data[i].task_id+'" data-toggle="modal" id="getMyAssignedTaskHistoryDetails" data-target="#exampleModalLong">View</button></td></tr>');
 
                   $('#myassignedtasklist').append(row);
     }
@@ -792,6 +806,42 @@ $(document).on('click', '#getMyAssignedTaskDetails', function(e){
  })
  .fail(function(){
          $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Task ListSomething went wrong, Please try again...');
+ });
+
+});
+});
+
+
+//Display My Assign Task History Details 
+$(document).ready(function(){
+
+$(document).on('click', '#getMyAssignedTaskHistoryDetails', function(e){
+
+     $('#myassignedtasklistHistory td').parent().remove();
+    
+        e.preventDefault();
+      var uid = $(this).data('id'); // status
+    //   var uid2 = $(this).data('id2'); //owner
+   
+    alert(uid);
+ $.ajax({
+        url:'<?php  echo base_url()?>task/getHistoryById',
+       type: 'POST',
+     data: {'id':uid},
+     dataType: 'json'
+ })
+ .done(function(data){
+        console.log(data);
+
+        for (var i=0; i<data.length; i++) {
+        var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].creator+'</td><td>'+data[i].full_name+'</td><td>'+data[i].status+'</td><td>'+data[i].remark+'</td><td>'+data[i].progress+'</td><td>'+data[i].hupdated_at+'</td><td>'+data[i].deadline+'</td></tr>');
+
+                  $('#myassignedtasklistHistory').append(row);
+    }
+
+ })
+ .fail(function(){
+         $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Task history List, Something went wrong, Please try again...');
  });
 
 });
@@ -834,4 +884,5 @@ $(function(){
  		});
  	}
 });
+// myassignedtasklistHistory
 </script>
