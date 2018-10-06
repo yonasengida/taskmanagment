@@ -22,7 +22,7 @@
                        <div class="col-md-4">
                           <div class="form-group">
                              <label for="staffid">Branch Code</label>
-														 <input type="hidden"  class="form-control" id="u_branch_id" name="u_branch_id"/>
+						     <input type="hidden"  class="form-control" id="u_branch_id" name="u_branch_id"/>
                              <input type="text"  class="form-control" id="u_branch_code" name="u_branch_code"  required>
                        </div>
                        </div>
@@ -81,7 +81,7 @@
 				?>
 			<tr>
 
-				<td><?php echo $profile->name?></td>
+				<td><?php echo $profile->dept_name?></td>
 				<!--<td><?php echo $profile->branch_code?></td>-->
 		  	<!--<td><?php echo $profile->remark?></td>-->
 
@@ -135,7 +135,16 @@
                           
                          </div>
                        </div>
-                      
+                       <div class="col-md-4">
+                          <div class="form-group">
+                               <label for="username">Group</label>
+                               <select class="form-control">
+                                   <option value="corporate">Corporate</option>
+                                   <option value="regional">Regional</option>
+                               </select>
+                          
+                         </div>
+                       </div>
                    </div>
               </div>
              </div>

@@ -5,6 +5,7 @@
 				<tr>
 					<th width="">#</th>
 					<th width="">Title</th>
+					<th width="">Assigned By</th>
 					<th width="">Owner</th>
                     <th width="">Status</th>
                     <th width="">Remark</th>
@@ -26,6 +27,7 @@
 
 				<td><?php echo ++$i?></td>
 				<td><?php echo $profile->title?></td>
+				<td><?php echo $profile->creator?></td>
 				<td><?php echo $profile->full_name?></td>
                 <td><?php echo $profile->status?></td>
 		        <td><?php echo $profile->remark?></td>
@@ -51,6 +53,8 @@
          <label for="username">Select Status</label>
         <select name="status" id="status" class="form-control">
          <option value="OnProgress">On Progress</option>
+         <option value="Cancel">Cancel</option>
+         <!-- <option value="Pended">Pended</option> -->
          <option value="Closed">Closed</option>
         </select>
                           
@@ -58,7 +62,7 @@
 </div>
 <div class="col-md-6">
     <div class="form-group">
-         <label for="progress">Progress</label>
+         <label for="progress">Progress %</label>
         <input type="text" name="progress" id="progress" class="form-control"/>
         <!--<progress value="70" max="100"></progress>-->
         <!--<progress value="10" max="10">sss</progress>-->

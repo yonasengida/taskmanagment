@@ -8,6 +8,7 @@ class Task_model extends CI_Model{
 
 }
 
+	// View All TASKS
 	public function get(){
 		$this->db->select('*');
 		// $this->db->where('b_status','active' );
@@ -19,7 +20,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
-	
+	// View All Tasks Assigned bY ME
 	public function taskAssigned(){
 		$this->db->select('*');
 		 $this->db->where('tcreated_by',$this->session->userdata('user_id'));
@@ -31,6 +32,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
+	//View Task Assigned By Me Count
 	public function taskAssignedCount(){
 		$this->db->select('*');
 		 $this->db->where('tcreated_by',$this->session->userdata('user_id'));
@@ -39,9 +41,9 @@ class Task_model extends CI_Model{
 			return $query->num_rows();
 		
 	}
-	// Task Assigned To me Summary
+	// Task Assigned By Me Summary  
 	public function taskAssignedSummary(){
-		$this->db->select('email,full_name,task_status,count(task_status) as total');
+		$this->db->select('assignedto,email,full_name,task_status,count(task_status) as total');
 		$this->db->from('viewtasks');
 		// $this->db->where('created_at >=',$start_date);
 		 $this->db->where('tcreated_by ',$this->session->userdata('user_id'));
@@ -49,6 +51,8 @@ class Task_model extends CI_Model{
 		$this->db->group_by('task_status');
 		$this->db->group_by('email');
 		$this->db->group_by('full_name');
+		$this->db->group_by('assignedto');
+		
 		$query = $this->db->get();
 		
 		if($query->num_rows()>0){
@@ -59,7 +63,7 @@ class Task_model extends CI_Model{
 		}
 	}
 
-	
+	// View Tasks Assigned to me
 	public function taskAssignedToMe(){
 		$this->db->select('*');
 		 $this->db->where('assignedto ',$this->session->userdata('user_id'));
@@ -71,7 +75,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
-	//MY TASKS FUNCTION
+	//TASKS Assigned to me COunt
 	public function taskAssignedToMeCount(){
 		$this->db->select('*');
 		 $this->db->where('assignedto ',$this->session->userdata('user_id'));
@@ -96,6 +100,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
+	//Tasks assigned to me whic is not closed
 	public function taskNotClosed(){
 		$this->db->select('*');
 		$this->db->where('task_status !=','Closed' );
@@ -108,7 +113,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
-	
+	// Assign Tasks
  public function assign($data){
 
 		$this->db->insert('tblhistory',$data);
@@ -118,6 +123,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
+	//create Tasks
   public function create($data){
 
 		$this->db->insert('tbltasks',$data);
@@ -127,6 +133,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
+	// Get Single Task
 	public function get_single($param1){
 
 		$this->db->select('*');
@@ -140,6 +147,7 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
+	//View Singe TAsk History
 	public function get_single_history($param1){
     	$this->db->select('*');
 		$this->db->where('htask_id',$param1 );
@@ -153,6 +161,7 @@ class Task_model extends CI_Model{
 		}
 		
 	}
+	// View Task History By User
 	public function get_user_history($param1){
     	$this->db->select('*');
 		$this->db->where('htask_id',$param1 );
@@ -166,18 +175,31 @@ class Task_model extends CI_Model{
 		}
 		
 	}
-	
+	//Update Tasks
 	public function update($data)
 	{
 		$this->db->where('task_id',$data['task_id'] );
 		$this->db->update('tbltasks',$data);
 	}
+	//Update Task Assignment
 	public function updateAssign($data)
 	{
 		$this->db->where('htask_id',$data['ru_task_id'] );
 		$this->db->update('tblhistory',$data);
 	}
 
+//Get Tasks By Status and OWner
+public function tasksByStatusAndOwner($param1,$param2){
+	$this->db->select('*');
+	$this->db->where('task_status !=',$param1 );
+	$this->db->where('assignedto ',$param2);
+	$query = $this->db->get('viewtasks');
+	if($query->num_rows()>0){
+		return $query->result();
+	}else{
 
+		return false;
+	}
+}
 }
 ?>

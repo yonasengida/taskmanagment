@@ -234,7 +234,7 @@ Update Task</button>
 <!--Re-Assign Modela-->
 
 <!--Modal-->
-<form id= "reassign" action="<?php echo base_url()?>branch/updateBranch" method="POST">
+<form id= "reassign" action="<?php echo base_url()?>task/reassign" method="POST">
 <!-- <form action="nsjdjad" method="POST"> -->
 <div id="update-modalreassign" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
    <div class="modal-dialog modal-lg">
@@ -251,7 +251,7 @@ Update Task</button>
              <div id="dynamic-content">
                  <div class="row">
                      <div class="col-md-12">
-                     	<input type="hidden"  class="form-control" id="u_task_id" name="u_task_id"/>
+                     	<input type="hidden"  class="form-control" id="ru_task_id" name="ru_task_id"/>
                       
                       <div class="col-md-6">
                           <div class="form-group">
@@ -318,6 +318,7 @@ Update Task</button>
 <!--end of Modal-->
 </form>
 <div class="container box">
+    <!-- Display List of tasks -->
 	<div class="table-responsive">
 		<table id="sender_info" class="table table-bordered table-striped paginate_table">
 			<thead>
@@ -325,6 +326,7 @@ Update Task</button>
 					<th width="">Title </th>
 					<th width="">Assigned To</th>
                     <th width="">Status</th>
+                    <th width="">Progress</th>
                     <th width="">Deadline</th>
                     <th width="">Action</th>
 
@@ -336,15 +338,20 @@ Update Task</button>
 			if(!$profiles){
 				//echo "Data Is Empty";
 			}else{
-
+                // $i=1;
 			 foreach($profiles as $profile){
-
+                // $i=$i+10;
 				?>
 			<tr>
 
 				<td><?php echo $profile->title?></td>
 				<td><?php echo $profile->full_name?></td>
                 <td><?php echo $profile->task_status?></td>
+                <td>
+                <progress min="0" value="<?php  echo $profile->progress?>" max="100"></progress>
+
+                </div>
+                </td>
 		        <td><?php echo $profile->deadline?></td>
                 
 
@@ -428,7 +435,7 @@ Update Task</button>
                           
                          </div>
                        </div>
-                       <div class="col-md-6">
+                       <div class="col-md-12">
                           <div class="form-group">
                              <label >Title</label>
                              <input type="text"  class="form-control" id="title" name="title" placeholder="Title"  required>
@@ -524,7 +531,7 @@ $(document).ready(function(){
 		console.log(data);
         // alert(data[0].owner)
 	    // document.getElementById('u_dept').value=data[0].tdept_id;
-	    // document.getElementById('u_task_id').value=data[0].task_id;
+	    document.getElementById('ru_task_id').value=data[0].task_id;
 	    document.getElementById('ru_title').value=data[0].title;
 		document.getElementById('ru_owner').value=data[0].owner;
         document.getElementById('ru_desc').value=data[0].description;
@@ -698,38 +705,16 @@ $(document).ready(function(){
 });
 
 
-//Display My Assign Task Detail 
+//Display My Assign Task Summary 
 $(document).ready(function(){
 
 	$(document).on('click', '#getMyAssignedTask', function(e){
    
-		 $('#myassignedtasklist td').parent().remove();
 		 $('#myassignedtasksummary td').parent().remove();
-         
-        //  alert("Assigntask Click")
+	
 			e.preventDefault();
 		  var uid = $(this).data('id'); // get id of clicked row
-		
-     $.ajax({
-		    	url:'<?php  echo base_url()?>task/taskAssigned',
-      	 type: 'POST',
-         data: {'uid':uid},
-         dataType: 'json'
-     })
-     .done(function(data){
-			console.log(data);
-
-			for (var i=0; i<data.length; i++) {
-            // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
-            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td></tr>');
-
-					  $('#myassignedtasklist').append(row);
-        }
-
-     })
-     .fail(function(){
-			 $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Task ListSomething went wrong, Please try again...');
-     });
+	   
      $.ajax({
 		    	url:'<?php  echo base_url()?>task/taskAssignedSummary',
       	 type: 'POST',
@@ -740,8 +725,7 @@ $(document).ready(function(){
 			console.log(data);
 
 			for (var i=0; i<data.length; i++) {
-            // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
-            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].task_status+'</td><td>'+data[i].full_name+"["+data[i].email+"]"+'</td><td>'+data[i].total+'</td><td>View</td></tr>');
+            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].task_status+'</td><td><input value="'+data[i].full_name+'" id="task_owner" name="task_owner" />'+data[i].full_name+"["+data[i].email+"]"+'</td><td>'+data[i].total+'</td><td> <button data-toggle="modal" data-target="" data-id="<?php echo $profile->task_id?>" id="getMyAssignedTaskDetails" class="btn btn-link"><i class="glyphicon glyphicon-update"></i>Details</button></td></tr>');
 
 					  $('#myassignedtasksummary').append(row);
         }
@@ -753,7 +737,40 @@ $(document).ready(function(){
      
     });
 });
+//Display My Assign Task Detail 
+$(document).ready(function(){
 
+$(document).on('click', '#getMyAssignedTaskDetails', function(e){
+
+     $('#myassignedtasklist td').parent().remove();
+    
+        e.preventDefault();
+      var uid = $(this).data('id'); // get id of clicked row
+     var owner =document.getElementById("task_owner").value;
+     var owner= $(this).closest('#task_owner');
+     alert(owner);
+ $.ajax({
+        url:'<?php  echo base_url()?>task/taskAssigned',
+       type: 'POST',
+     data: {'uid':uid},
+     dataType: 'json'
+ })
+ .done(function(data){
+        console.log(data);
+
+        for (var i=0; i<data.length; i++) {
+        var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td></tr>');
+
+                  $('#myassignedtasklist').append(row);
+    }
+
+ })
+ .fail(function(){
+         $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Task ListSomething went wrong, Please try again...');
+ });
+
+});
+});
 // Show task Counts
 $(function(){
  

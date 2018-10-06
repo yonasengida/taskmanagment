@@ -1,5 +1,5 @@
 <?php
-if($this->session->userdata('role_name') !='sys_admin'){?>
+if($this->session->userdata('role') !='admin'){?>
   <div class="col-md-12 centered text-center">
       <div class="alert alert-warning fade in">
           <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -168,7 +168,7 @@ if($this->session->userdata('role_name') !='sys_admin'){?>
 					<th width="">Middle Name</th>
 					<th width="">User Name</th>
 					<th width="">Email</th>
-					<th width="">Branch</th>
+					<th width="">Department</th>
           <th width="">Status</th>
 					<th width="">Role</th>
 					<th width="">Tel</th>

@@ -33,7 +33,8 @@ class Auth_model extends CI_Model{
                    'full_name' => $row->full_name,
                    'emp_dept' => $row->emp_dept,
                    'emp_status' => $row->emp_status,
-                   'validated' => true
+                   'validated' => true,
+                   'role' => $row->role
                    );
 
            $this->session->set_userdata($data);

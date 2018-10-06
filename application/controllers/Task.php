@@ -74,16 +74,28 @@ class Task extends CI_Controller {
 	}
 	// RE-ASSIGN TASK
 	public function reassign(){
-			$taskdata = array
+		// echo $this->input->post('ru_task_id') ;
+			// Update Task Assignment
+			$taskHistdata = array
 				(
 			'htask_id'  =>  $this->input->post('ru_task_id'),
-			'owner'  => $this->input->post('u_title')
+			'owner'  => $this->input->post('ru_owner')
+		    				
+				);
+				// Update Task Data
+			$updt_taskdata = array
+				(
+			'task_id'  =>  $this->input->post('ru_task_id'),
+			'assignedto'  => $this->input->post('ru_owner')
 		    				
 				);
 			$this->load->model('Task_model'); // First load the model
-			$this->Task_model->updateAssign($taskdata); // call the method from the controller
+			//Update Task History
+			$this->Task_model->updateAssign($taskHistdata); // call the method from the controller
+			//Update TASK
+			$this->Task_model->update($updt_taskdata); // call the method from the controller
 			$this->session->set_flashdata('msg',"Updated Successfully" );
-			redirect('task');
+			redirect('home');
 	}
 	// GET SINGLE TASK
 		public function getById(){
@@ -113,23 +125,22 @@ class Task extends CI_Controller {
 			'htask_id'  => $this->input->post('taskid'),
 		    'owner'  => $this->input->post('owner'),
 		    'status'  => $this->input->post('status'),
+		   
 			'remark' =>$this->input->post('remark'),
 			'hupdated_at'  => date('Y-m-d H:i:s')
 	      );
 		  // Excute Assign Task
 		   $this->load->model('Task_model');
             $this->Task_model->assign($assignTask);
-			//if Status is closed update task ststus here as closed
-			// if($this->input->post('status') == 'Closed'){
-
-			
+						
             $updateTask= array(
 			'task_id'  => $this->input->post('taskid'),
 			'task_status'  => $this->input->post('status'),
+			'progress'  => $this->input->post('progress'),
 			'tupdated_at'  => date('Y-m-d H:i:s')
 	      );
 		   $this->Task_model->update($updateTask);
-		//   }
+		 
 		  
 		  	redirect('task');
 			
@@ -167,4 +178,10 @@ class Task extends CI_Controller {
 				$this->load->model('Task_model');
 			    echo json_encode($this->Task_model->taskAssignedCount());
 		}
+		//gET tASK bY sTATUS AND oWNER/assigned To
+		public function tasksByStatusAndOwner(){
+			$this->load->model('Task_model');
+			echo json_encode($this->Task_model->tasksByStatusAndOwner(trim($this->input->post('status')),trim($this->input->post('owner'))));
+		}
+
 }

@@ -20,7 +20,7 @@
                     <input type="password" class="form-control" name="password" id="password"  required/>                         
                 </div>
                 <div class="footer">
-                    <button id="updtTask" type="submit" class="btn btn-danger" >Save</button>
+                    <button id="updtTask" type="submit" class="btn btn-danger" >Login</button>
                 
                 </div>
             </div>
