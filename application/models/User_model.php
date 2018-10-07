@@ -11,7 +11,7 @@ class User_model extends CI_Model{
 	public function get(){
 		$this->db->select('*');
 		// $this->db->where('b_status','active' );
-		$query = $this->db->get('tblemployees');
+		$query = $this->db->get('viewemployees');
 		if($query->num_rows()>0){
 			return $query->result();
 		}else{
@@ -34,7 +34,7 @@ class User_model extends CI_Model{
 
 		$this->db->select('*');
 		$this->db->where('task_id',$param1 );
-		$query = $this->db->get('tblemployees');
+		$query = $this->db->get('viewemployees');
 		if($query->num_rows()>0){
 			return $query->result();
 		}else{

@@ -38,6 +38,8 @@
             </a>
             <a class="navbar-brand" href="<?php echo base_url() ?>home">Home</a>
             <a class="navbar-brand" href="<?php echo base_url() ?>task">Task</a>
+            <a class="navbar-brand" href="<?php echo base_url() ?>report">Report</a>
+            
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">

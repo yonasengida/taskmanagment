@@ -185,7 +185,7 @@ Update Task</button>
       <div class="modal-content">
 
          <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Close |×</button>
              <h4 class="modal-title">
              <i class=""></i>Update Task
              </h4>
@@ -449,9 +449,9 @@ Update Task</button>
                           <div class="form-group">
                                <label for="username">Select Group</label>
                                <select name="groups" id="groups" class="form-control">
-                                   <option value="0">Select Group</option>
-                                   <option value="corporate">Corporate</option>
-                                   <option value="regional">Regional</option>
+                               <option value="<?php echo $this->session->userdata('groups')?>"><?php echo $this->session->userdata('groups')?></option>
+                                   <option value="Corporate">Corporate</option>
+                                   <option value="Regional">Regional</option>
                                </select>
                           
                          </div>
@@ -624,37 +624,38 @@ $(function(){
 });
 
 //GET ALL Groups
-$(function(){
+// $(function(){
  
- 	// function
- 	showAllGroup();
- 	function showAllGroup(){
- 		$.ajax({
- 			type:'POST',
- 			url:'<?php  echo base_url()?>department/getAll',
- 			asyc:false,
- 			dataType:'json',
- 			success:function(data){
-               //  alert("Hi")
- 				console.log(data);
-        for (var i=0; i<data.length; i++) {
+//  	// function
+//  	showAllGroup();
+//  	function showAllGroup(){
+//          var url='<?php  echo base_url()?>department/getAll';
+//  		$.ajax({
+//  			type:'POST',
+//  			url:url,
+//  			asyc:false,
+//  			dataType:'json',
+//  			success:function(data){
+//                //  alert("Hi")
+//  				console.log(data);
+//         for (var i=0; i<data.length; i++) {
 
-                    var row = $('<option value="'+data[i].dept_id+'">' + data[i].dept_name+ '</option>');
-                    $('#dept').append(row);
-                }
-    for (var i=0; i<data.length; i++) {
+//                     var row = $('<option value="'+data[i].dept_id+'">' + data[i].dept_name+ '</option>');
+//                     $('#dept').append(row);
+//                 }
+//     for (var i=0; i<data.length; i++) {
 
-                    var row = $('<option value="'+data[i].dept_id+'">' + data[i].dept_name+ '</option>');
-                    $('#u_dept').append(row);
-                }
+//                     var row = $('<option value="'+data[i].dept_id+'">' + data[i].dept_name+ '</option>');
+//                     $('#u_dept').append(row);
+//                 }
 
-          },
- 			error:function(){
- 			alert("Could not get Data from Database");
- 			}
- 		});
- 	}
-});
+//           },
+//  			error:function(){
+//  			alert("Could not get Data from Database");
+//  			}
+//  		});
+//  	}
+// });
 //Display Task which is not closed
 $(document).ready(function(){
 
@@ -865,6 +866,7 @@ $(function(){
  	// function
  	showTaskCounts();
  	function showTaskCounts(){
+
  		$.ajax({
  			type:'POST',
  			url:'<?php  echo base_url()?>task/taskAssignedToMeCount',
@@ -897,5 +899,47 @@ $(function(){
  		});
  	}
 });
-// myassignedtasklistHistory
+//Here is to Filter  Departments and Users
+$(function () {
+        $("#groups").change(function () {
+            // alert($("#groups").val());
+            var depturl='<?php  echo base_url()?>department/getByGroup';
+                    
+                    //  e.preventDefault();
+                    var uid = $("#groups").val(); // get id of selected value
+                        // alert(uid);
+                    $.ajax({
+                      url:depturl,
+                        type: 'POST',
+                        data: {'group':uid},
+                        dataType: 'json'
+                    })
+                    .done(function(data){
+                            console.log(data);
+                                $('#dept option').remove();
+                            for (var i=0; i<data.length; i++) {
+                                var row = $('<option value="'+data[i].dept_id+'">' + data[i].dept_name+ '</option>');
+                                $('#dept').append(row);
+                        }
+
+                    })
+                    .fail(function(){
+                            $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Task ListSomething went wrong, Please try again...');
+                    });
+
+                    
+        });//End of Selection
+
+
+
+
+
+        var usedNames = {};
+        $("select > option").each(function () {
+        if(usedNames[this.text]) {
+            $(this).remove();
+        } else {
+            usedNames[this.text] = this.value;
+        }});
+    });
 </script>

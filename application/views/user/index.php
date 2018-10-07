@@ -161,7 +161,7 @@ if($this->session->userdata('role') !='admin'){?>
 
 <div class="container box">
 	<div class="table-responsive">
-		<table id="sender_info" class="table table-bordered table-striped">
+		<table id="sender_info" class="table table-bordered table-striped paginate_table">
 			<thead>
 				<tr>
 					<th width="">Name</th>
@@ -188,7 +188,7 @@ if($this->session->userdata('role') !='admin'){?>
 			<td><?php echo $profile->full_name?></td>
 			<td><?php echo $profile->email?></td>
 			<td><?php echo $profile->email?></td>
-			<td><?php echo $profile->emp_dept?></td>
+			<td><?php echo $profile->dept_name?></td>
             <td><?php echo $profile->emp_status?></td>
 		    <td><?php echo $profile->role?></td>
 			

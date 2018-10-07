@@ -41,6 +41,18 @@ class Department_model extends CI_Model{
 			return false;
 		}
 	}
+	public function getByGroup(){
+		$this->db->select('*');
+		$this->db->where('groups',$this->input->post('group'));
+		$query = $this->db->get('tbldepartments');
+		if($query->num_rows()>0){
+			return $query->result();
+		}else{
+
+			return false;
+		}
+	}
+	
 	public function updateBranch($data)
 	{
 

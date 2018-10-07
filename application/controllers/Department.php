@@ -19,5 +19,11 @@ class Department extends CI_Controller {
        $this->load->model('Department_model');
 	   echo json_encode($this->Department_model->get());  
     }
+    public function getByGroup(){
+        $this->load->model('Department_model');
+        // echo $this->input->get('group');
+       echo json_encode($this->Department_model->getByGroup());  
+     }
+    
 
 }

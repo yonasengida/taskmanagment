@@ -21,7 +21,7 @@ class Auth_model extends CI_Model{
        $this->db->where('emp_status', 'active');
 
        // Run the query
-       $query = $this->db->get('tblemployees');
+       $query = $this->db->get('viewemployees');
        if($query->num_rows() == 1)
        {
            // If there is a user, then create session data
@@ -33,6 +33,10 @@ class Auth_model extends CI_Model{
                    'full_name' => $row->full_name,
                    'emp_dept' => $row->emp_dept,
                    'emp_status' => $row->emp_status,
+                   'groups' => $row->groups,
+                   'parent' => $row->parent,
+                   'dept_name' => $row->dept_name,
+                   
                    'validated' => true,
                    'role' => $row->role
                    );
