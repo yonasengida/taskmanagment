@@ -13,7 +13,7 @@ class Auth_model extends CI_Model{
        // grab user input
        $username = $this->security->xss_clean($this->input->post('username'));
     //    $password = trim(md5($this->security->xss_clean($this->input->post('password'))));
-       $password = trim($this->security->xss_clean($this->input->post('password')));
+       $password = sha1(trim($this->security->xss_clean($this->input->post('password'))));
        // Prep the query
       	$this->db->select('*');
        $this->db->where('email', $username);

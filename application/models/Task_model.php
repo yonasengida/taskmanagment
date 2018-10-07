@@ -52,7 +52,8 @@ class Task_model extends CI_Model{
 		$this->db->group_by('email');
 		$this->db->group_by('full_name');
 		$this->db->group_by('assignedto');
-		
+		$this->db->order_by("assignedto", "asc");
+		$this->db->order_by("task_status", "desc");
 		$query = $this->db->get();
 		
 		if($query->num_rows()>0){
@@ -62,7 +63,20 @@ class Task_model extends CI_Model{
 			return false;
 		}
 	}
+	
+	// View Tasks Assigned to me By Status
+	public function taskAssignedToMeByStatus($param1){
+		$this->db->select('*');
+		 $this->db->where('task_status ',$param1);
+		 $this->db->where('assignedto ',$this->session->userdata('user_id'));
+		$query = $this->db->get('viewtasks');
+		if($query->num_rows()>0){
+			return $query->result();
+		}else{
 
+			return false;
+		}
+	}
 	// View Tasks Assigned to me
 	public function taskAssignedToMe(){
 		$this->db->select('*');

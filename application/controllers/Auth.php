@@ -32,7 +32,7 @@ class Auth extends CI_Controller {
         else
         {
 
-              redirect('task');
+              redirect('home');
         }
 		
     }

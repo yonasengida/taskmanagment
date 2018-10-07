@@ -137,10 +137,10 @@
                        </div>
                        <div class="col-md-4">
                           <div class="form-group">
-                               <label for="username">Group</label>
-                               <select class="form-control">
-                                   <option value="corporate">Corporate</option>
-                                   <option value="regional">Regional</option>
+                               <label for="Group">Group</label>
+                               <select name="group" id ="group" class="form-control">
+                                 <option value="Corporate">Corporate</option>
+                                 <option value="Regional">Regional</option>
                                </select>
                           
                          </div>

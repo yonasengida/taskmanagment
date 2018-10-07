@@ -1,4 +1,14 @@
+        <!-- Footer -->
+    <footer class="page-footer font-small blue">
 
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+      <a href="#"> ISD Software Development Team</a>
+    </div>
+    <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->  
     <script src="<?php echo base_url('assets/datatables.min.js') ?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-datepicker.min.js') ?>"></script>
    <script src="<?php echo base_url() ?>custom/js/home.js"></script>

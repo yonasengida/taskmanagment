@@ -42,10 +42,10 @@ class User_model extends CI_Model{
 			return false;
 		}
 	}
-	public function updateBranch($data)
+	public function updatePassword($data)
 	{
 
-		$this->db->where('task_id',$data['task_id'] );
+		$this->db->where('email',$this->input->post('username') );
 		$this->db->update('tblemployees',$data);
 	}
 

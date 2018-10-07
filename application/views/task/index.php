@@ -163,6 +163,7 @@ Update Task</button>
 						 					<th width="">Description</th>
 						 					<th width="">Deadline</th>
 						 					<th width="">Status</th>
+						 					<th width="">Assigned By</th>
 						 					</tr>
 						 			</thead>
 
@@ -686,38 +687,16 @@ $(document).ready(function(){
     });
 });
 
-//Display My Task Detail /Tod do LISt
+//Display My Task Summary /Tod do LISt Summary
 $(document).ready(function(){
 
 	$(document).on('click', '#getMyTask', function(e){
-   
-		 $('#mytasklist td').parent().remove();
+   	
 		 $('#mytasksummary td').parent().remove();
-         
-        //  alert("my task Click")
+             
 			e.preventDefault();
 		  var uid = $(this).data('id'); // get id of clicked row
-		
-     $.ajax({
-		    	url:'<?php  echo base_url()?>task/taskAssignedToMe',
-      	 type: 'POST',
-         data: {'uid':uid},
-         dataType: 'json'
-     })
-     .done(function(data){
-			console.log(data);
-
-			for (var i=0; i<data.length; i++) {
-            // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
-            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td></tr>');
-
-					  $('#mytasklist').append(row);
-        }
-
-     })
-     .fail(function(){
-			 $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Task ListSomething went wrong, Please try again...');
-     });
+	   
      $.ajax({
 		    	url:'<?php  echo base_url()?>task/taskAssignedToMeSummary',
       	 type: 'POST',
@@ -728,8 +707,7 @@ $(document).ready(function(){
 			console.log(data);
 
 			for (var i=0; i<data.length; i++) {
-            // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
-            var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].task_status+'</td><td>'+data[i].total+'</td><td>View</td></tr>');
+          var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].task_status+'</td><td>'+data[i].total+'</td><td> <button data-toggle="modal" data-target="" data-id2="'+data[i].assignedto+'" data-id="'+data[i].task_status+'" id="getMyTaskDetails" class="btn btn-link"><i class="glyphicon glyphicon-update"></i>Details</button></td></tr>');
 
 					  $('#mytasksummary').append(row);
         }
@@ -741,7 +719,42 @@ $(document).ready(function(){
      
     });
 });
+//Display My Task Details /Tod do LISt Details
+$(document).ready(function(){
 
+$(document).on('click', '#getMyTaskDetails', function(e){
+
+     $('#mytasklist td').parent().remove();
+    //  $('#mytasksummary td').parent().remove();
+     
+    //  alert("my task Click")
+        e.preventDefault();
+      var uid = $(this).data('id'); // get id of clicked row
+    
+ $.ajax({
+            url:'<?php  echo base_url()?>task/taskAssignedToMeByStatus',
+     type: 'POST',
+     data: {'task_status':uid},
+     dataType: 'json'
+ })
+ .done(function(data){
+        console.log(data);
+
+        for (var i=0; i<data.length; i++) {
+        // var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td><a href="task/followupview?id='+data[i].task_id+'&owner='+data[i].assignedto+'">Edit</a></td></tr>');
+        var row = $('<tr><td>'+(i+1)+'</td><td>'+data[i].title+'</td><td>'+data[i].description+'</td><td>'+data[i].deadline+'</td><td>'+data[i].task_status+'</td><td>'+data[i].creator+'</td></tr>');
+
+                  $('#mytasklist').append(row);
+    }
+
+ })
+ .fail(function(){
+         $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Task ListSomething went wrong, Please try again...');
+ });
+
+ 
+});
+});
 
 //Display My Assign Task Summary 
 $(document).ready(function(){
@@ -823,7 +836,7 @@ $(document).on('click', '#getMyAssignedTaskHistoryDetails', function(e){
       var uid = $(this).data('id'); // status
     //   var uid2 = $(this).data('id2'); //owner
    
-    alert(uid);
+    // alert(uid);
  $.ajax({
         url:'<?php  echo base_url()?>task/getHistoryById',
        type: 'POST',

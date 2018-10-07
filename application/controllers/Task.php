@@ -145,7 +145,11 @@ class Task extends CI_Controller {
 		  	redirect('task');
 			
 		}
-
+		//task Assigned to me by Status
+		public function taskAssignedToMeByStatus(){
+			$this->load->model('Task_model');
+			echo json_encode($this->Task_model->taskAssignedToMeByStatus(trim($this->input->post('task_status'))));
+	}
 		//task Assigned to me 
 		 public function taskAssignedToMe(){
 				$this->load->model('Task_model');

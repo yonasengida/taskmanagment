@@ -40,7 +40,7 @@ if($this->session->userdata('role') !='admin'){?>
       <?php
       }
       ?>
-<div class="container box text-center">
+<div class="container box ">
 <button data-toggle="modal" data-target="#view-modal" data-id="" id="createUser" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-user"></i>Create User</button>
 </div>
 <!--Modal-->
@@ -164,14 +164,13 @@ if($this->session->userdata('role') !='admin'){?>
 		<table id="sender_info" class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th width="">First Name</th>
-					<th width="">Middle Name</th>
-					<th width="">User Name</th>
+					<th width="">Name</th>
+					 <th width="">User Name</th>
 					<th width="">Email</th>
 					<th width="">Department</th>
-          <th width="">Status</th>
+                    <th width="">Status</th>
 					<th width="">Role</th>
-					<th width="">Tel</th>
+					
 					<th width="">Action</th>
 				</tr>
 			</thead>
@@ -186,17 +185,16 @@ if($this->session->userdata('role') !='admin'){?>
 				?>
 			<tr>
 
-				<td><?php echo $profile->user_first_name?></td>
-				<td><?php echo $profile->user_last_name?></td>
-			<td><?php echo $profile->user_name?></td>
+			<td><?php echo $profile->full_name?></td>
 			<td><?php echo $profile->email?></td>
-			<td><?php echo $profile->branch_name?></td>
-      <td><?php echo $profile->status?></td>
-		 <td><?php echo $profile->role_name?></td>
-			<td><?php echo $profile->tel?></td>
+			<td><?php echo $profile->email?></td>
+			<td><?php echo $profile->emp_dept?></td>
+            <td><?php echo $profile->emp_status?></td>
+		    <td><?php echo $profile->role?></td>
+			
 			<td>
 				<!-- <a href="" class=" btn btn-info">Edit</a> -->
-				<button data-toggle="modal" data-target="#update-modal" data-id="<?php echo $profile->user_id?>" id="getUser" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-update"></i>Update</button>
+				<button data-toggle="modal" data-target="#update-modal" data-id="<?php echo $profile->id?>" id="getUser" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-update"></i>Update</button>
 	  	</td>
 
 			</tr>
@@ -233,59 +231,52 @@ if($this->session->userdata('role') !='admin'){?>
                      <div class="col-md-12">
                        <div class="col-md-4">
                           <div class="form-group">
-                             <label for="staffid">Staff Id</label>
-                             <input type="text"  class="form-control" id="staff_id" name="staff_id" placeholder="Staff Id"  required>
+                             <label for="staffid">Username</label>
+                             <input type="text"  class="form-control" id="username" name="username" placeholder="Username/Email"  required>
                        </div>
                        </div>
                        <div class="col-md-4">
-                        <div class="form-group">
-                             <label for="fname">First Name</label>
-                             <input type="text" class="form-control" id="fname" name="fname" placeholder="" required>
-                       </div>
-                       </div>
-                      <div class="col-md-4">
                        <div class="form-group">
-                            <label for="fname">Last Name</label>
-                            <input type="text" class="form-control" id="lname" name="lname" placeholder="" required>
+                            <label for="fname">Employee ID</label>
+                            <input type="text" class="form-control" id="emp_id" name="emp_id" placeholder="Employee ID" required>
                       </div>
                       </div>
                        <div class="col-md-4">
                         <div class="form-group">
-                             <label for="username">User Name</label>
-                             <input type="text" class="form-control" id="user_name" name="user_name" placeholder="User Name" required>
+                             <label for="name"> Name</label>
+                             <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
                        </div>
                        </div>
-                       <div class="col-md-4">
-                        <div class="form-group">
-                             <label for="password">Password</label>
-                             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                       </div>
-                       </div>
+                      <!-- <div class="col-md-4">
+                       <div class="form-group">
+                            <label for="fname">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="" required>
+                      </div>
+                      </div> -->
+                                            
 
 
                    </div>
                    <div class="col-md-12">
-                     <div class="col-md-4">
-                        <div class="form-group">
-                           <label for="staffid">Tel</label>
-                           <input type="text"  class="form-control" id="tel" name="tel" placeholder="Tel"  required>
-                     </div>
-                     </div>
+                   
                      <div class="col-md-4">
                       <div class="form-group">
-                           <label for="email">Email</label>
-                           <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                           <label for="group">Group</label>
+                          <select class="form-control" id="group" name="group" required>
+                         <option value="Corporate">Corporate</option>
+                         <option value="Regional">Regional</option>
+                         
+                      </select>
                      </div>
                      </div>
 
-                     <div class="col-md-4">
+                   
+                   <div class="col-md-4">
                       <div class="form-group">
-                       <label for="branch">Branch</label>
-                       <select class="form-control" id="branch" name="branch" required>
-                         <option value="">Select Branch</option>
-                         <!-- <option value="1">Godey</option>
-                         <option value="2">Qabridahar</option>
-                         <option value="3">Dire Dawa</option> -->
+                       <label for="Department">Department</label>
+                       <select class="form-control" id="dept" name="dept" required>
+                         <!-- <option value="">Select Department</option> -->
+                         
                       </select>
 
                      </div>
@@ -294,7 +285,8 @@ if($this->session->userdata('role') !='admin'){?>
                     <div class="form-group">
                      <label for="role">Role</label>
                      <select class="form-control" id="role" name="role" required>
-                       <option value="">Select Role</option>
+                       <option value="user">User</option>
+                       <option value="admin">Admin</option>
 
                     </select>
 
@@ -316,7 +308,7 @@ if($this->session->userdata('role') !='admin'){?>
 
       </div>
    </div>
-</div
+</div>
 </form>
 
 <!--end of Modal-->
@@ -400,66 +392,69 @@ $(document).ready(function(){
 //      });
 //     });
 // });
-$(function(){
+// $(function(){
 //**********************************
-showAllRole();
-function showAllRole(){
- $.ajax({
-   type:'POST',
-   url:'<?php  echo base_url()?>role/get',
-   asyc:false,
-   dataType:'json',
-   success:function(data){
-     console.log(data);
-     for (var i=0; i<data.length; i++) {
+// showAllRole();
+// function showAllRole(){
+//  $.ajax({
+//    type:'POST',
+//    url:'<?php  echo base_url()?>role/get',
+//    asyc:false,
+//    dataType:'json',
+//    success:function(data){
+//      console.log(data);
+//      for (var i=0; i<data.length; i++) {
 
-                 var row = $('<option value="'+data[i].role_id+'">' + data[i].role_name+ '</option>');
-                 $('#role').append(row);
-               //  $('#u_branch').append(row);
-             }
+//                  var row = $('<option value="'+data[i].role_id+'">' + data[i].role_name+ '</option>');
+//                  $('#role').append(row);
+//                //  $('#u_branch').append(row);
+//              }
 
-             for (var i=0; i<data.length; i++) {
+//              for (var i=0; i<data.length; i++) {
 
-                         var row = $('<option value="'+data[i].role_id+'">' + data[i].role_name+ '</option>');
-                     //    $('#branch').append(row);
-                         $('#u_role').append(row);
-                     }
-       },
-   error:function(){
-   alert("Could not get Data from Database");
-   }
- });
-}
+//                          var row = $('<option value="'+data[i].role_id+'">' + data[i].role_name+ '</option>');
+//                      //    $('#branch').append(row);
+//                          $('#u_role').append(row);
+//                      }
+//        },
+//    error:function(){
+//    alert("Show all role,Could not get Data from Database");
+//    }
+//  });
+// }
 //*********************************
 
- 	showAllBranch();
- 	function showAllBranch(){
- 		$.ajax({
- 			type:'POST',
- 			url:'<?php  echo base_url()?>branch/get',
- 			asyc:false,
- 			dataType:'json',
- 			success:function(data){
- 				console.log(data);
-        for (var i=0; i<data.length; i++) {
+//GET ALL Groups
+$(function(){
+ 
+ // function
+ showAllDepartment();
+ function showAllDepartment(){
+     $.ajax({
+         type:'POST',
+         url:'<?php  echo base_url()?>department/getAll',
+         asyc:false,
+         dataType:'json',
+         success:function(data){
+        //    alert("Hi")
+             console.log(data);
+    for (var i=0; i<data.length; i++) {
 
-                    var row = $('<option value="'+data[i].branch_id+'">' + data[i].branch_name+ '</option>');
-                    $('#branch').append(row);
-                  //  $('#u_branch').append(row);
-                }
+                var row = $('<option value="'+data[i].dept_id+'">' + data[i].dept_name+ '</option>');
+                $('#dept').append(row);
+            }
+             for (var i=0; i<data.length; i++) {
 
-                for (var i=0; i<data.length; i++) {
+                var row = $('<option value="'+data[i].dept_id+'">' + data[i].dept_name+ '</option>');
+                $('#u_dept').append(row);
+              }
 
-                            var row = $('<option value="'+data[i].branch_id+'">' + data[i].branch_name+ '</option>');
-                        //    $('#branch').append(row);
-                            $('#u_branch').append(row);
-                        }
-          },
- 			error:function(){
- 			alert("Could not get Data from Database");
- 			}
- 		});
- 	}
+      },
+         error:function(){
+         alert("Could not get Data from Database");
+         }
+     });
+ }
 });
 </script>
 <?php } ?>
